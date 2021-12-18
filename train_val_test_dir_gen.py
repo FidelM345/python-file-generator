@@ -2,11 +2,6 @@ import os
 import numpy as np
 import shutil
 
-# import pandas as pd
-import os
-import numpy as np
-import shutil
-
 
 # import pandas as pd
 def train_test_split(source_dir_path, destination_dir_path, class_names, val_ratio, test_ratio,
@@ -51,21 +46,6 @@ def train_test_split(source_dir_path, destination_dir_path, class_names, val_rat
                                                                               1 - test_ratio)),
                                                                       ])
 
-        # if classes_data_should_be_same:
-        #     train_file_names, val_file_names, test_file_names = np.split(selected_file_names,
-        #                                                                  [int(selected_file_names.size * (
-        #                                                                          1 - (val_ratio + test_ratio))),
-        #                                                                   int(selected_file_names.size * (
-        #                                                                           1 - test_ratio)),
-        #                                                                   ])
-
-        # else:
-        #     train_file_names, val_file_names, test_file_names = np.split(np.array(names_of_all_files),
-        #                                                                  [int(len(names_of_all_files) * (
-        #                                                                          1 - (val_ratio + test_ratio))),
-        #                                                                   int(len(names_of_all_files) * (
-        #                                                                           1 - test_ratio)),
-        #                                                                   ])
 
         train_file_names = [src + '//' + name for name in train_file_names.tolist()]
         val_file_names = [src + '//' + name for name in val_file_names.tolist()]
@@ -97,9 +77,3 @@ def train_test_split(source_dir_path, destination_dir_path, class_names, val_rat
 
     print("########### Train Test Val Script Ended ###########")
     return destination_dir_path
-
-
-# class_names_list = ["COVID", "Lung_Opacity", "Normal", "Viral Pneumonia"]
-# destination_folder = train_test_split("covid19-radiography-database", "categorized_corona_data", class_names_list, 0.1,
-#                                       0.2, True)
-# print(f"{destination_folder}")
