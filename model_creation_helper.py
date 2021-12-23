@@ -409,3 +409,56 @@ def preprocess_images_from_directory(train_dir_path, test_dir_path
         "test_data": test_data,
         "val_data": val_data
     }
+
+
+# recompile the model with lower learning rate when fine tuning the best practise
+# is to reduce by x10.
+# method for fine-tuning a transfer learning feature extracted model.
+def fine_tune_created_vanilla_model(model,
+                                    train_data,
+                                    val_data,
+                                    callbacks,
+                                    fine_tune_epochs=20,
+                                    optimizer=tf.keras.optimizers.Adam(0.0001),
+                                    loss="binary_crossentropy",
+                                    metrics=["accuracy"],
+                                    ):
+    """
+    :param model: pass the model to be fine-tuned
+    :param train_data: tensorflow preprocessed training dataset
+    :param val_data: tensorflow preprocessed validation dataset
+    :param callbacks: tensorflow callback methods
+    :param fine_tune_epochs: the number of epochs the model will be fine-tuned
+    :param optimizer: the optimization algorithm that will be used
+    :param loss: the loss function that will be used
+    :param metrics: metrics for evaluating the model performance
+    :return:
+     return {
+        "model": model,
+        "new_history": new_history
+    }
+    """
+    # Compile and fit the model
+    model.compile(
+        optimizer=optimizer,
+        loss=loss,
+        metrics=metrics
+    )
+
+    # Fine-tune for 30 more epochs
+    # fine_tune_epochs = 20 #because we have added to the intial 5 epochs during featue extraction TL.
+
+    new_history = model.fit(
+        train_data,
+        epochs=fine_tune_epochs,
+        steps_per_epoch=len(train_data),
+        validation_data=val_data,
+        validation_steps=len(val_data),
+        initial_epoch=training_history.epoch[-1],
+        callbacks=callbacks
+    )
+
+    return {
+        "model": model,
+        "new_history": new_history
+    }
