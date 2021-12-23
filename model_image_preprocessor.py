@@ -13,6 +13,7 @@ def preprocess_images_from_directory(train_dir_path, test_dir_path
                                      , label_mode, img_size, seed=45,
                                      batch_size=32, val_split=0.2, ):
     """
+    preprocess images using the training and testing directories only, a separate validiation dataset is not required.
     :param seed:Optional random seed for shuffling and transformations.
     :param img_size: Size to resize images to after they are read from disk
     :param val_split:Optional float between 0 and 1, fraction of data to reserve for validation.
@@ -74,3 +75,5 @@ def preprocess_images_from_directory(train_dir_path, test_dir_path
         "test_data": test_data,
         "val_data": val_data
     }
+
+

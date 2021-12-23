@@ -4,9 +4,13 @@ import shutil
 
 
 # import pandas as pd
+# Categorizes your folder containing the image files into test, train and validation sets depending on the arguments,
+# provide to the function.
 def train_test_split(source_dir_path, destination_dir_path, class_names, val_ratio, test_ratio,
                      same_file_number=False, no_files_in_folder=1345):
     """
+    Categorizes your folder containing the image files into test, train and validation sets depending on the arguments,
+    provide to the function.
     :param (int) no_files_in_folder: this value will be used if the value of same_file_number is set to True.
     :param (boolean) same_file_number: Determines whether a folder or classes should contain the same number of files or
     not. The  default value is False.
