@@ -221,7 +221,7 @@ def create_vanilla_model(
         optimizer=tf.keras.optimizers.Adam(),
         loss="binary_crossentropy",
         metrics=["accuracy"],
-        img_input_shape=IMG_SIZE + (3,)
+        img_input_shape=(224, 224, 3)
 ):
     # base_model = tf.keras.applications.MobileNetV2(include_top=False,
     #                                                   weights="imagenet",
