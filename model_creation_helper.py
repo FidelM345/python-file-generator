@@ -213,6 +213,7 @@ def early_stopping_callback(patience=7, restore_best_weights=True, monitor="val_
 def create_vanilla_model(
         train_data,
         val_data,
+        callbacks,
         base_model, output_layer_filter_no=1,
         dropout_value=0.4,
         epochs=10,
@@ -220,7 +221,6 @@ def create_vanilla_model(
         optimizer=tf.keras.optimizers.Adam(),
         loss="binary_crossentropy",
         metrics=["accuracy"],
-        callbacks=[early_stopping_callback(), saved_model_weights()],
         img_input_shape=IMG_SIZE + (3,)
 ):
     # base_model = tf.keras.applications.MobileNetV2(include_top=False,
