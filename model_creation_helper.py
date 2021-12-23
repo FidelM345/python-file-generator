@@ -158,15 +158,15 @@ def generate_augment_images(
 
 # Used to plot and visualize images using matplot library.
 def visualize_and_show_images(
-        train_data=prepocessed_image_dictionary["train_data"],
-        class_names=prepocessed_image_dictionary["train_data"].class_names
+        train_data,
+        class_names  # prepocessed_image_dictionary["train_data"].class_names
 ):
     # import matplotlib.pyplot as plt
     # import numpy as np
     # import os
     # import tensorflow as tf
 
-    train_data = prepocessed_image_dictionary["train_data"]
+    #train_data = prepocessed_image_dictionary["train_data"]
     plt.figure(figsize=(10, 10))
     for images, labels in train_data.take(1):
         for i in range(9):
