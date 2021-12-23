@@ -226,7 +226,7 @@ def create_vanilla_model(
     # base_model = tf.keras.applications.MobileNetV2(include_top=False,
     #                                                   weights="imagenet",
     #                                                   input_shape=img_input_shape)
-
+    from tensorflow.keras import layers
     base_model.trainable = False
 
     inputs = layers.Input(shape=img_input_shape, name="input_layer")
