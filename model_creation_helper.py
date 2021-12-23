@@ -261,6 +261,7 @@ def create_vanilla_model(
 
     return {
         "model": model,
+        "base": base_model,
         "training_history": training_history
     }
 
@@ -418,12 +419,18 @@ def fine_tune_created_vanilla_model(model,
                                     train_data,
                                     val_data,
                                     callbacks,
+                                    base_model,
+                                    train_entire_model=False,
+                                    layers_to_freeze=-5,
                                     fine_tune_epochs=20,
                                     optimizer=tf.keras.optimizers.Adam(0.0001),
                                     loss="binary_crossentropy",
                                     metrics=["accuracy"],
                                     ):
     """
+    :param base_model: This is the pre-trained tensorflow model
+    :param layers_to_freeze:
+    :param train_entire_model:
     :param model: pass the model to be fine-tuned
     :param train_data: tensorflow preprocessed training dataset
     :param val_data: tensorflow preprocessed validation dataset
@@ -438,6 +445,16 @@ def fine_tune_created_vanilla_model(model,
         "new_history": new_history
     }
     """
+    # unfreeze all layers in the base model
+    base_model.trainable = True
+
+    if not train_entire_model:
+        for layer in base_model.layers[:layers_to_freeze]:
+            layer.trainable = False
+
+    # check the trainable layers in our efficientnet base model.
+    for num, layer in enumerate(model.layers[3].layers):
+        print(num, layer.name, layer.trainable)
     # Compile and fit the model
     model.compile(
         optimizer=optimizer,
