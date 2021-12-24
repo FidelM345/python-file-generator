@@ -4,7 +4,6 @@ from keras.preprocessing.image import ImageDataGenerator
 import matplotlib.pyplot as plt
 import shutil
 from tensorflow.keras import layers
-
 import numpy as np
 
 
@@ -421,6 +420,7 @@ def fine_tune_created_vanilla_model(model,
                                     val_data,
                                     callbacks,
                                     base_model,
+                                    training_history,
                                     train_entire_model=False,
                                     layers_to_freeze=-5,
                                     fine_tune_epochs=20,
@@ -429,6 +429,7 @@ def fine_tune_created_vanilla_model(model,
                                     metrics=["accuracy"],
                                     ):
     """
+    :param training_history:
     :param base_model: This is the pre-trained tensorflow model
     :param layers_to_freeze:
     :param train_entire_model:
