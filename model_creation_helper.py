@@ -166,7 +166,7 @@ def visualize_and_show_images(
     # import os
     # import tensorflow as tf
 
-    #train_data = prepocessed_image_dictionary["train_data"]
+    # train_data = prepocessed_image_dictionary["train_data"]
     plt.figure(figsize=(10, 10))
     for images, labels in train_data.take(1):
         for i in range(9):
@@ -217,6 +217,7 @@ def create_vanilla_model(
         base_model, output_layer_filter_no=1,
         dropout_value=0.4,
         epochs=10,
+        preprocess_input=tf.keras.applications.mobilenet_v2.preprocess_input,
         output_activation="sigmoid",
         optimizer=tf.keras.optimizers.Adam(),
         loss="binary_crossentropy",
@@ -231,7 +232,7 @@ def create_vanilla_model(
 
     inputs = layers.Input(shape=img_input_shape, name="input_layer")
 
-    preprocess_input = tf.keras.applications.mobilenet_v2.preprocess_input
+    # preprocess_input = tf.keras.applications.mobilenet_v2.preprocess_input
 
     x = preprocess_input(inputs)
 
