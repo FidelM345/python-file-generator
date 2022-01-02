@@ -423,6 +423,7 @@ def fine_tune_created_vanilla_model(model,
                                     base_model,
                                     training_history,
                                     train_entire_model=False,
+                                    no_layer_to_show=3,
                                     layers_to_freeze=-5,
                                     fine_tune_epochs=20,
                                     optimizer=tf.keras.optimizers.Adam(0.0001),
@@ -430,6 +431,7 @@ def fine_tune_created_vanilla_model(model,
                                     metrics=["accuracy"],
                                     ):
     """
+    :param no_layer_to_show: which layers will be printed as modified.
     :param training_history:
     :param base_model: This is the pre-trained tensorflow model
     :param layers_to_freeze:
@@ -456,7 +458,7 @@ def fine_tune_created_vanilla_model(model,
             layer.trainable = False
 
     # check the trainable layers in our efficientnet base model.
-    for num, layer in enumerate(model.layers[3].layers):
+    for num, layer in enumerate(model.layers[no_layer_to_show].layers):
         print(num, layer.name, layer.trainable)
     # Compile and fit the model
     model.compile(
