@@ -5,6 +5,64 @@ import matplotlib.pyplot as plt
 import shutil
 from tensorflow.keras import layers
 import numpy as np
+from tensorflow import keras
+from tensorflow.keras import layers
+
+# method for creating a hybrid SVM and deep learning model.
+def create_vanilla_model_SVM(
+        train_data,
+        val_data,
+        callbacks,
+        base_model,
+        classification_layer_filter_no=1,
+        epochs=10,
+        preprocess_input=tf.keras.applications.mobilenet_v2.preprocess_input,
+        output_activation="linear",
+        regularizer_rate=0.0001,
+        optimizer=tf.keras.optimizers.Adam(),
+        loss="hinge",
+        metrics=["accuracy"],
+        img_input_shape=(224, 224, 3)
+):
+    base_model.trainable = False
+
+    inputs = layers.Input(shape=img_input_shape, name="input_layer")
+
+    # preprocess_input = tf.keras.applications.mobilenet_v2.preprocess_input
+
+    x = preprocess_input(inputs)
+
+    x = base_model(x, training=False)
+
+    x = layers.GlobalAveragePooling2D(name="global_average_pooling_layer")(x)
+    # x = layers.Dropout(dropout_value)(x)
+    outputs = layers.Dense(classification_layer_filter_no,
+                           kernel_regularizer=tf.keras.regularizers.l2(regularizer_rate), activation=output_activation,
+                           name="output_layer")(x)
+
+    model = tf.keras.Model(inputs, outputs)
+
+    # Compile and fit the model
+    model.compile(
+        optimizer=optimizer,
+        loss=loss,
+        metrics=metrics
+    )
+
+    training_history = model.fit(
+        train_data,
+        epochs=epochs,
+        steps_per_epoch=len(train_data),
+        validation_data=val_data,
+        validation_steps=len(val_data),
+        callbacks=callbacks
+    )
+
+    return {
+        "model": model,
+        "base": base_model,
+        "training_history": training_history
+    }
 
 
 # preprocess your images from the train, test, and validation directories into a format tha can
@@ -38,7 +96,7 @@ def preprocess_images_from_directory_val_separate(train_dir_path, test_dir_path,
         batch_size=batch_size,
         # validation_split=val_split,
         seed=seed,
-        # subset="training"  # must be used inconjuction with validation_split.
+        # subset="training"  # must be used in conjunction with validation_split.
     )
 
     val_data = tf.keras.preprocessing.image_dataset_from_directory(
